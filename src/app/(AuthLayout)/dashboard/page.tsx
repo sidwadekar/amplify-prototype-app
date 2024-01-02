@@ -57,6 +57,9 @@ const IconDelete: FC = () => {
   );
 };
 
+interface Response {
+  data: Array
+}
 
 const Dashboard: FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);

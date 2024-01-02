@@ -76,7 +76,6 @@ const register = () => {
         error: false,
         message: "Register successfully!"
       })
-      console.log(isSignUpComplete, userId, nextStep)
     } catch (error) {
       console.log('error signing up', error);
       setResponse({
@@ -123,7 +122,6 @@ const register = () => {
           values: Values,
           { setSubmitting }: FormikHelpers<Values>
         ) => {
-          console.log(values)
           handleSignUp(values);
         }}
       >
@@ -185,6 +183,7 @@ const register = () => {
             <Button type="submit">
               Register
             </Button>
+              {response.message !== "" && <Alert variation={response.error ? 'error': 'success'}>{response.message}</Alert>}
           </Flex>
         </Form>
       )}

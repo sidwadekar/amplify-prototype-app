@@ -41,7 +41,6 @@ const login = () => {
         error: false,
         message: "Login successfully!"
       })
-      console.log(isSignedIn, nextStep)
     } catch (error) {
       console.log('error signing in', error);
       setResponse({
@@ -72,7 +71,6 @@ const login = () => {
           values: Values,
           { setSubmitting }: FormikHelpers<Values>
         ) => {
-          console.log(values)
           handleSignIn({username: values.email, password: values.password});
         }}
       >
