@@ -57,16 +57,22 @@ const IconDelete: FC = () => {
   );
 };
 
-interface Response {
-  data: Array
+interface listTodosData {
+  items: []
 }
+
+interface ResponseData {
+  listTodos: listTodosData
+}
+
+
 
 const Dashboard: FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const client = generateClient();
 
   const getTodoList = async () => {
-    const response = await client.graphql<Todo[]>({ query: listTodos });
+    let response = await client.graphql<Todo[]>({ query: listTodos }) as { data: ResponseData };
     const tempTodos = response.data.listTodos.items;
     setTodos(tempTodos);
   }
