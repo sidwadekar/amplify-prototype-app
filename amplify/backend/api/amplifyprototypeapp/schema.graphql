@@ -1,0 +1,6 @@
+type Todos @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  task_name: String!
+  task_description: String
+  is_completed: Boolean
+}
