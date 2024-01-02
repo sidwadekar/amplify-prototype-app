@@ -9,6 +9,7 @@ import { listTodos } from './../../../graphql/queries';
 Amplify.configure(config);
 
 interface Todo {
+  id: string;
   task_name: string;
   task_description: string;
   is_completed: boolean;
@@ -105,7 +106,7 @@ const Dashboard: FC = () => {
         <TableBody>
           {
             todos.length > 0 ? todos.map((todo: Todo) => (
-              <TableRow>
+              <TableRow key={todo.id}>
                 <TableCell>{todo.task_name}</TableCell>
                 <TableCell>{todo.task_description}</TableCell>
                 <TableCell>{todo.is_completed ? `Yes` : `No`}</TableCell>

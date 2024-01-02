@@ -20,8 +20,9 @@ export default function GuestLayout({
       if(username !== "" && userId !== "") {
         window.location.href = '/dashboard'
       }
-    } catch (err) {
-      window.location.href = '/login'
+    }
+    finally {
+      console.log('ready')
     }
   }
 
