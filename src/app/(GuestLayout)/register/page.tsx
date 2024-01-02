@@ -1,25 +1,10 @@
 'use client'
-import React from "react";
-
+import React, { FC, useRef, useState } from "react";
 import { Amplify } from 'aws-amplify';
-
-import {
-  Button,
-  CheckboxField,
-  Flex,
-  Heading,
-  PasswordField,
-  PhoneNumberField,
-  TextAreaField,
-  TextField,
-  useTheme,
-} from '@aws-amplify/ui-react';
-
+import { Alert, Button, Flex, Heading, PasswordField, PhoneNumberField, TextAreaField, TextField, useTheme } from '@aws-amplify/ui-react';
 import { signUp } from 'aws-amplify/auth';
-
 import { Formik, Form, FormikHelpers } from 'formik';
 import * as yup from 'yup';
-
 import config from './../../../amplifyconfiguration.json';
 
 Amplify.configure(config);
@@ -33,17 +18,17 @@ interface Values {
   phone_number: string;
 }
 
-const register = () => {
-  const dialCodeRef = React.useRef(null);
-  const [response, setResponse] = React.useState({
+const register: FC = () => {
+  const dialCodeRef = useRef<HTMLInputElement>(null);
+  const [response, setResponse] = useState<{ error: boolean, message: string }>({
     error: false,
     message: ""
   });
   const { tokens } = useTheme();
 
-  const handleChangePhoneNumber = (value: String, setFieldValue: Function) => {
+  const handleChangePhoneNumber = (value: string, setFieldValue: Function) => {
     if(!value.includes('+')) {
-      value = dialCodeRef.current.value + value
+      value = dialCodeRef.current!.value + value
     }
 
     setFieldValue("phone_number", value);
