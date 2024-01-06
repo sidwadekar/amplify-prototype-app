@@ -1,9 +1,16 @@
 'use client'
 import React, { FC, useEffect, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
+
 import { Amplify } from 'aws-amplify';
+
 import { Button, Flex, Icon, Table, TableBody, TableCell, TableHead, TableRow, View } from "@aws-amplify/ui-react";
+
 import { generateClient } from 'aws-amplify/api';
+
 import config from './../../../amplifyconfiguration.json';
+
 import { listTodos } from './../../../graphql/queries';
 
 Amplify.configure(config);
@@ -66,11 +73,11 @@ interface ResponseData {
   listTodos: listTodosData
 }
 
-
-
 const Dashboard: FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+
   const client = generateClient();
+  const { push } = useRouter();
 
   const getTodoList = async () => {
     let response = await client.graphql<Todo[]>({ query: listTodos }) as { data: ResponseData };
@@ -80,6 +87,14 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     getTodoList()
+    
+    const loginEmail = localStorage.getItem('username');
+    const isSignedIn = localStorage.getItem('isSignedIn');
+    
+    if(loginEmail === "" && isSignedIn === "")
+    {
+      push('/login');
+    }
   }, [])
 
   return (

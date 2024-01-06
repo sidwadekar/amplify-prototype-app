@@ -1,10 +1,18 @@
 'use client'
 import React, { FC, useRef, useState } from "react";
+
+import { useRouter } from 'next/navigation';
+
 import { Amplify } from 'aws-amplify';
-import { Alert, Button, Flex, Heading, PasswordField, PhoneNumberField, TextAreaField, TextField, useTheme } from '@aws-amplify/ui-react';
+
+import { Alert, Button, Flex, Heading, Link, PasswordField, TextAreaField, TextField, useTheme } from '@aws-amplify/ui-react';
+
 import { signUp } from 'aws-amplify/auth';
+
 import { Formik, Form, FormikHelpers } from 'formik';
+
 import * as yup from 'yup';
+
 import config from './../../../amplifyconfiguration.json';
 
 Amplify.configure(config);
@@ -24,15 +32,9 @@ const register: FC = () => {
     error: false,
     message: ""
   });
+
   const { tokens } = useTheme();
-
-  const handleChangePhoneNumber = (value: string, setFieldValue: Function) => {
-    if(!value.includes('+')) {
-      value = dialCodeRef.current!.value + value
-    }
-
-    setFieldValue("phone_number", value);
-  }
+  const { push } = useRouter();
 
   async function handleSignUp({ 
     name,
@@ -52,15 +54,21 @@ const register: FC = () => {
             name,
             email,
             address,
-            phone_number
+            phone_number: "+91" + phone_number
           },
           autoSignIn: true // or SignInOptions e.g { authFlowType: "USER_SRP_AUTH" }
         }
       });
+
       setResponse({
         error: false,
         message: "Register successfully!"
       })
+
+      setTimeout(() => {
+        push('/login')
+      }, 3000);
+
     } catch (error) {
       console.log('error signing up', error);
       setResponse({
@@ -69,6 +77,16 @@ const register: FC = () => {
       })
     }
   }
+
+  React.useEffect(() => {
+    const loginEmail = localStorage.getItem('username');
+    const isSignedIn = localStorage.getItem('isSignedIn');
+
+    if(loginEmail !== "" && isSignedIn === "true")
+    {
+      push('/dashboard');
+    }
+  }, [])
 
   return (
     <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
@@ -155,19 +173,23 @@ const register: FC = () => {
               onChange={handleChange}
               errorMessage={errors.address}
             />
-            <PhoneNumberField 
-              dialCodeRef={dialCodeRef}
+            <TextField  
               label="Phone Number" 
               name="phone_number" 
-              defaultDialCode="+91" 
+              autoComplete="phone_number" 
               hasError={touched.phone_number && Boolean(errors.phone_number)}
-              onChange={(e) => handleChangePhoneNumber(e.target.value, setFieldValue)}
-              onDialCodeChange={(e) => setFieldValue("phone_number", e.target.value + values.phone_number)}
+              onChange={handleChange}
               errorMessage={errors.phone_number}
             />
             <Button type="submit">
               Register
             </Button>
+            <Link
+              href="/login"
+              color="#007EB9"
+            >
+              Already have an account? Login
+            </Link>
               {response.message !== "" && <Alert variation={response.error ? 'error': 'success'}>{response.message}</Alert>}
           </Flex>
         </Form>

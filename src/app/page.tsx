@@ -1,7 +1,30 @@
+
+'use client'
+import React from "react";
+
+import { useRouter } from 'next/navigation';
+
 import Image from 'next/image'
+
 import styles from './page.module.css'
 
 export default function Home() {
+  const { push } = useRouter();
+
+  React.useEffect(() => {
+    const loginEmail = localStorage.getItem('username');
+    const isSignedIn = localStorage.getItem('isSignedIn');
+    
+    if(loginEmail !== "" && isSignedIn === "true")
+    {
+      push('/dashboard');
+    }
+    else
+    {
+      push('/login')
+    }
+  }, [])
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>

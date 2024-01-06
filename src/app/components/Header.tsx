@@ -1,8 +1,14 @@
 'use client'
+import React, { FC } from 'react';
+
+import { useRouter } from 'next/navigation';
+
 import { Amplify } from 'aws-amplify';
+
 import { signOut } from 'aws-amplify/auth';
-import { FC } from 'react';
+
 import { Flex, Grid, Heading, Menu, MenuItem } from '@aws-amplify/ui-react';
+
 import config from './../../amplifyconfiguration.json';
 
 interface HeaderProps {}
@@ -10,10 +16,16 @@ interface HeaderProps {}
 Amplify.configure(config);
 
 const Header: FC<HeaderProps> = () => {
+  const { push } = useRouter();
+
   async function handleSignOut(): Promise<void> {
     try {
       await signOut();
-      window.location.href = '/login'
+      
+      localStorage.removeItem("username");
+      localStorage.removeItem("isSignedIn");
+
+      push('/login');
     } catch (error) {
       console.log('error signing out: ', error);
     }

@@ -1,6 +1,8 @@
 'use client'
 import React from "react";
 
+import { useRouter } from 'next/navigation';
+
 import { Amplify } from 'aws-amplify';
 
 import {
@@ -8,6 +10,7 @@ import {
   Button,
   Flex,
   Heading,
+  Link,
   PasswordField,
   TextField,
   useTheme,
@@ -32,15 +35,24 @@ const login = () => {
     error: false,
     message: ""
   });
+
   const { tokens } = useTheme();
+  const { push } = useRouter();
 
   async function handleSignIn({ username, password }: SignInInput) {
     try {
       const { isSignedIn, nextStep } = await signIn({ username, password });
+      localStorage.setItem("username", username);
+      localStorage.setItem("isSignedIn", isSignedIn.toString());
+      
       setResponse({
         error: false,
         message: "Login successfully!"
       })
+
+      setTimeout(() => {
+        push('/dashboard');
+      }, 3000);
     } catch (error) {
       console.log('error signing in', error);
       setResponse({
@@ -49,6 +61,16 @@ const login = () => {
       })
     }
   }
+
+  React.useEffect(() => {
+    const loginEmail = localStorage.getItem('username');
+    const isSignedIn = localStorage.getItem('isSignedIn');
+
+    if(loginEmail !== "" && isSignedIn === "true")
+    {
+      push('/dashboard');
+    }
+  }, [])
 
   return (
     <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
@@ -98,6 +120,12 @@ const login = () => {
               <Button type="submit">
                 Login
               </Button>
+              <Link
+                href="/register"
+                color="#007EB9"
+              >
+                Don’t have an Account? Register
+              </Link>
               {response.message !== "" && <Alert variation={response.error ? 'error': 'success'}>{response.message}</Alert>}
             </Flex>
           </Form>
