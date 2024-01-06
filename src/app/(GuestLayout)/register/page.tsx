@@ -10,7 +10,6 @@ import { Alert, Button, Flex, Heading, Link, PasswordField, TextAreaField, TextF
 import { signUp } from 'aws-amplify/auth';
 
 import { Formik, Form, FormikHelpers } from 'formik';
-
 import * as yup from 'yup';
 
 import config from './../../../amplifyconfiguration.json';
