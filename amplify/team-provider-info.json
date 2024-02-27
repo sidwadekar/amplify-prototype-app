@@ -18,6 +18,12 @@
       },
       "api": {
         "amplifyprototypeapp": {}
+      },
+      "function": {
+        "amplifyprototypeappCreateAuthChallenge": {},
+        "amplifyprototypeappCustomMessage": {},
+        "amplifyprototypeappDefineAuthChallenge": {},
+        "amplifyprototypeappVerifyAuthChallengeResponse": {}
       }
     }
   }
