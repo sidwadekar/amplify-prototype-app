@@ -1,0 +1,13 @@
+{
+  "resourceName": "mystorage",
+  "policyUUID": "88a045eb",
+  "bucketName": "mybucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}

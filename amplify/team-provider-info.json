@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-amplifyprototypeapp-staging-60854-unauthRole",
       "StackName": "amplify-amplifyprototypeapp-staging-60854",
       "StackId": "arn:aws:cloudformation:us-west-1:464871392770:stack/amplify-amplifyprototypeapp-staging-60854/945789d0-a547-11ee-8988-06d807f64ba3",
-      "AmplifyAppId": "dpztod6g1t7f4"
+      "AmplifyAppId": "dpztod6g1t7f4",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-amplifyprototypeapp-staging-60854-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
